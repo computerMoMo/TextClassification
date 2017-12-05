@@ -85,6 +85,8 @@ if __name__ == "__main__":
             print("Created model with fresh parameters.")
             session.run(tf.global_variables_initializer())
 
+            best_dev_acc = 0.0
+
             # run train op
             for i in range(train_configs["max_epoch"]):
                 # forward
@@ -103,7 +105,10 @@ if __name__ == "__main__":
                     TextCNN.dropout_keep_prob: 1.0
                 }
                 dev_loss, dev_accuracy = session.run([TextCNN.loss, TextCNN.accuracy], dev_feed_dicts)
+                if dev_accuracy > best_dev_acc:
+                    best_dev_acc = dev_accuracy
                 print("Evaluation: loss {:g}, acc {:g}".format(dev_loss, dev_accuracy))
                 print("Save model.")
                 model_name = "model_dev_acc_{:.5f}.ckpt".format(dev_accuracy)
                 TextCNN.saver.save(session, os.path.join(check_point_dir, model_name), global_step=tf.train.global_step(session, global_step))
+            print("best dev acc:", best_dev_acc)

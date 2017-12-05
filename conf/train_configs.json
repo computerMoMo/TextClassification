@@ -1,10 +1,10 @@
 {
   "CNN_configs": {
     "word_max_len":20,
-    "char_max_len": 15,
-    "num_classes": 2,
-    "word_embedding_size": 100,
-    "char_embedding_size": 100,
+    "char_max_len": 100,
+    "num_classes": 5,
+    "word_embedding_size": 50,
+    "char_embedding_size": 50,
     "word_embedding": "word_vectors",
     "char_embedding": "char_vectors",
     "word_to_id_dict": "word_to_id_dicts",
@@ -15,21 +15,21 @@
     "char_num_filters": 150,
     "l2_reg_lambda": 0.001,
     "use_char": true,
-    "serialization_dir": "serialization_data/demo_corpus"
+    "serialization_dir": "serialization_data/FIQA"
   },
   "train_configs":
   {
-    "serialization_dir":"serialization_data/demo_corpus",
+    "serialization_dir":"serialization_data/FIQA",
     "x_train_data":"x_train_data",
     "y_train_data":"y_train_data",
     "x_valid_data":"x_valid_data",
     "y_valid_data":"y_valid_data",
-    "batch_size":16,
+    "batch_size":32,
     "evaluate_every":5,
     "checkpoint_every":5,
     "init_scale":0.05,
-    "check_point_path":"model_ckpt/char_model",
-    "max_epoch":10,
+    "check_point_path":"model_ckpt/FIQA_model",
+    "max_epoch":50,
     "optimizer_conf":{
 		"optimizer":"Adam",
 		"momentum":0.9,

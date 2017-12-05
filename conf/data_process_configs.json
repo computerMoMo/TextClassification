@@ -1,11 +1,12 @@
 {
   "word_max_len":20,
-  "char_max_len":15,
+  "char_max_len":100,
   "split":0.2,
   "word_embedding_file": "None",
-  "char_embedding_file": "pretrained_vectors/char_vectors.txt",
-  "word_embedding_dim":100,
-  "char_embedding_dim":100,
-  "corpus_id": "corpus/demo_corpus",
-  "serialization_dir":"serialization_data/demo_corpus"
+  "char_embedding_file": "None",
+  "word_embedding_dim":50,
+  "char_embedding_dim":50,
+  "corpus_id": "corpus/FIQA",
+  "serialization_dir":"serialization_data/FIQA",
+  "language":"en"
 }

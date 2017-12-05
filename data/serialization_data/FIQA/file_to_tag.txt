@@ -1,0 +1,5 @@
+FIQA_3.txt	1
+FIQA_4.txt	2
+FIQA_1.txt	3
+FIQA_2.txt	4
+FIQA_0.txt	0

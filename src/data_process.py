@@ -41,12 +41,17 @@ def load_data(configs):
         file_to_tag_dict[file_name] = tag_idx
     Data_lists = []
     for (tag, file_name) in file_to_tag_list:
-        text_file = os.path.join(corpus_dir, file_name+".text")
+        text_file = os.path.join(corpus_dir, file_name+".txt")
         if os.path.isfile(text_file):
             text_reader = codecs.open(text_file, mode='r', encoding='utf-8')
             nums = 0
             for text_line in text_reader.readlines():
-                item = (jieba.lcut(text_line.strip()), [ch for ch in text_line.strip()], tag)
+                if configs["language"] == "ch":
+                    item = (jieba.lcut(text_line.strip()), [ch for ch in text_line.strip()], tag)
+                elif configs["language"] == "en":
+                    item = (text_line.split(), [ch for ch in text_line.replace(" ", "")], tag)
+                else:
+                    raise ValueError(configs["language"] + " language not support yet")
                 Data_lists.append(item)
                 nums += 1
             print(file_name+" tag:", tag, " data nums:", nums)
@@ -135,7 +140,7 @@ def generate_train_valid_data(configs, data_lists, word_to_id_dicts, char_to_id_
         if len(x_item) > word_max_len:
             x_item = x_item[:word_max_len]
         else:
-            while len(x_item) <= word_max_len:
+            while len(x_item) < word_max_len:
                 x_item.append(unknown_word_id)
         for char in char_list:
             if char in char_to_id_dicts:
@@ -145,7 +150,7 @@ def generate_train_valid_data(configs, data_lists, word_to_id_dicts, char_to_id_
         if len(x_item) > word_max_len+char_max_len:
             x_item = x_item[:word_max_len+char_max_len]
         else:
-            while len(x_item) <= word_max_len+char_max_len:
+            while len(x_item) < word_max_len+char_max_len:
                 x_item.append(unknown_char_id)
         x_data.append(x_item)
         y_score = [0.0]*num_classes
