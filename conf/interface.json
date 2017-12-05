@@ -1,0 +1,10 @@
+{
+  "word_max_len":20,
+  "char_max_len":15,
+  "input_file": "/home/jeffly/PycharmProjects/TextClassification/data/test/test.txt",
+  "word_to_id": "word_to_id_dicts",
+  "char_to_id": "char_to_id_dicts",
+  "check_point_dir": "/home/jeffly/PycharmProjects/TextClassification/data/model_ckpt/char_model",
+  "output_dir":"/home/jeffly/PycharmProjects/TextClassification/data/test",
+  "serialization_dir":"serialization_data/demo_corpus"
+}
