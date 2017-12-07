@@ -11,7 +11,7 @@ DataDirPath = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__fi
 UNKNOWN = "<OOV>"
 
 
-class MyCNN(object):
+class RegressionModel(object):
     def __init__(self, configs):
         # parse config
         self.word_max_len = configs["word_max_len"]
@@ -156,12 +156,12 @@ class MyCNN(object):
 
 # for test
 if __name__ == "__main__":
-    configs = json.load(open(os.path.join(ConfDirPath, "train_configs.json")))
-    cnn_configs = configs["CNN_configs"]
+    configs = json.load(open(os.path.join(ConfDirPath, "train_regression.json")))
+    model_configs = configs["RegressionModel_configs"]
     train_configs = configs["train_configs"]
     # train
     with tf.Graph().as_default(), tf.Session() as session:
         initializer = tf.random_uniform_initializer(-train_configs["init_scale"], train_configs["init_scale"])
         with tf.variable_scope("text_classification", reuse=None, initializer=initializer):
             # CNN model
-            TextCNN = MyCNN(cnn_configs)
+            TextCNN = RegressionModel(model_configs)
