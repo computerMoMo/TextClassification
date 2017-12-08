@@ -42,7 +42,7 @@ class RegressionModel(object):
         self.input = tf.placeholder(tf.int32, [None, self.word_max_len+self.char_max_len], name="model_input")
         self.word_input = tf.slice(self.input, [0, 0], [-1, self.word_max_len])
         self.char_input = tf.slice(self.input, [0, self.word_max_len], [-1, self.char_max_len])
-        self.target_input = tf.placeholder(tf.float32, [None, self.num_classes], name="target_input")
+        self.target_input = tf.placeholder(tf.float32, [None, 1], name="target_input")
         self.dropout_keep_prob = tf.placeholder(tf.float32, name="dropout_keep_prob")
         # print(self.input)
         # print(self.dropout_keep_prob)
@@ -131,26 +131,25 @@ class RegressionModel(object):
         with tf.name_scope("output"):
             W = tf.get_variable(
                 "W",
-                shape=[num_filters_total, self.num_classes],
+                shape=[num_filters_total, 1],
                 initializer=tf.contrib.layers.xavier_initializer())
-            b = tf.Variable(tf.constant(0.1, shape=[self.num_classes], name="b"))
+            b = tf.Variable(tf.constant(0.1, shape=[1], name="b"))
             l2_loss += tf.nn.l2_loss(W)
             l2_loss += tf.nn.l2_loss(b)
-            self.scores = tf.nn.xw_plus_b(self.h_drop, W, b)
-            self.scores = tf.nn.softmax(self.scores, name="softmax_scores")
-            # print(self.scores)
-            self.predictions = tf.argmax(self.scores, 1, name="predictions")
+
+            self.predictions = tf.tanh(tf.nn.xw_plus_b(self.h_drop, W, b))
+
             # print(self.predictions)
         # Calculate Mean cross-entropy loss
         with tf.name_scope("loss"):
-            losses = tf.nn.softmax_cross_entropy_with_logits(logits=self.scores, labels=self.target_input)
-            self.loss = tf.reduce_mean(losses) + self.l2_reg_lambda * l2_loss
-
+            losses = tf.losses.mean_squared_error(self.target_input, self.predictions)
+            self.loss = losses + self.l2_reg_lambda * l2_loss
         # Accuracy
-        with tf.name_scope("accuracy"):
-            correct_predictions = tf.equal(self.predictions, tf.argmax(self.target_input, 1))
-            self.accuracy = tf.reduce_mean(tf.cast(correct_predictions, "float"), name="accuracy")
+        # with tf.name_scope("accuracy"):
+        #     correct_predictions = tf.equal(self.predictions, tf.argmax(self.target_input, 1))
+        #     self.accuracy = tf.reduce_mean(tf.cast(correct_predictions, "float"), name="accuracy")
         # saver
+
         self.saver = tf.train.Saver(tf.global_variables(), max_to_keep=100)
 
 

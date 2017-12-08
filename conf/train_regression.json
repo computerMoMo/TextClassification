@@ -15,11 +15,11 @@
     "char_num_filters": 150,
     "l2_reg_lambda": 0.001,
     "use_char": true,
-    "serialization_dir": "serialization_data/FIQA"
+    "serialization_dir": "serialization_data/Regression_FIQA"
   },
   "train_configs":
   {
-    "serialization_dir":"serialization_data/FIQA",
+    "serialization_dir":"serialization_data/Regression_FIQA",
     "x_train_data":"x_train_data",
     "y_train_data":"y_train_data",
     "x_valid_data":"x_valid_data",
@@ -28,7 +28,7 @@
     "evaluate_every":5,
     "checkpoint_every":5,
     "init_scale":0.05,
-    "check_point_path":"model_ckpt/FIQA_model",
+    "check_point_path":"model_ckpt/Regression_FIQA_model",
     "max_epoch":50,
     "optimizer_conf":{
 		"optimizer":"Adam",
